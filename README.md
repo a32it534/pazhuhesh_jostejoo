@@ -412,4 +412,4 @@ https://github.com/a32it534/pazhuhesh_jostejoo
 
 **Pazhuhesh Jostejoo — Intelligent Persian Research Assistant**
 
-© 2026 Alireza Faghirian. All rights reserved.
+
