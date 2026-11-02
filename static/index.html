@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>پژوهش و جستجو — دستیار پژوهشگر هوشمند</title>
+  <script>
+    (function () {
+      try {
+        var t = localStorage.getItem('theme');
+        if (!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = t;
+      } catch (e) { document.documentElement.dataset.theme = 'light'; }
+    })();
+  </script>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <a class="skip" href="#main">رفتن به محتوای اصلی</a>
+
+  <header class="topbar">
+    <button id="history-toggle" class="icon-btn only-mobile" type="button"
+            aria-controls="sidebar" aria-expanded="false" aria-label="باز کردن تاریخچه‌ی پژوهش‌ها">☰</button>
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">پ</span>
+      <div>
+        <h1>پژوهش و جستجو</h1>
+        <p class="tagline">دستیار پژوهشگر هوشمند فارسی‌زبان</p>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <span id="health" class="health" role="status" data-state="unknown">
+        <span class="dot" aria-hidden="true"></span><span id="health-text">بررسی مدل…</span>
+      </span>
+      <button id="theme-toggle" class="icon-btn" type="button" aria-pressed="false"
+              aria-label="تعویض تم روشن و تیره"><span id="theme-icon" aria-hidden="true">☾</span></button>
+    </div>
+  </header>
+
+  <div id="overlay" class="overlay" hidden></div>
+
+  <div class="layout">
+    <aside id="sidebar" class="sidebar" aria-label="تاریخچه‌ی پژوهش‌ها">
+      <div class="sidebar-head">
+        <h2>تاریخچه‌ی پژوهش‌ها</h2>
+        <button id="new-research" class="btn ghost small" type="button">پژوهش تازه</button>
+      </div>
+      <ul id="history-list" class="history-list"></ul>
+      <p id="history-empty" class="muted small" hidden>هنوز پژوهشی انجام نشده است.</p>
+    </aside>
+
+    <main id="main" class="main" tabindex="-1">
+      <div id="notice" class="notice" role="alert" hidden></div>
+
+      <section id="input-section" class="card" aria-labelledby="input-title">
+        <h2 id="input-title">موضوع پژوهش را بنویسید</h2>
+        <form id="research-form" novalidate>
+          <label for="topic" class="sr">موضوع پژوهش</label>
+          <textarea id="topic" name="topic" rows="3" maxlength="500"
+                    placeholder="مثلاً: تأثیر هوش مصنوعی مولد بر بازار کار ایران"
+                    aria-describedby="counter topic-error"></textarea>
+          <div class="field-row">
+            <p id="topic-error" class="error-text" role="alert" hidden></p>
+            <span id="counter" class="muted small" aria-live="off">۰ / ۵۰۰</span>
+          </div>
+
+          <fieldset class="depth">
+            <legend>عمق پژوهش</legend>
+            <div class="segmented">
+              <input type="radio" id="depth-quick" name="depth" value="quick">
+              <label for="depth-quick"><strong>سریع</strong><small>۲ زیرسؤال</small></label>
+              <input type="radio" id="depth-standard" name="depth" value="standard" checked>
+              <label for="depth-standard"><strong>استاندارد</strong><small>۴ زیرسؤال</small></label>
+              <input type="radio" id="depth-deep" name="depth" value="deep">
+              <label for="depth-deep"><strong>عمیق</strong><small>۶ زیرسؤال</small></label>
+            </div>
+          </fieldset>
+
+          <div class="suggestions" aria-label="موضوع‌های پیشنهادی">
+            <span class="muted small">نمونه موضوع:</span>
+            <button type="button" class="chip" data-topic="تأثیر هوش مصنوعی مولد بر بازار کار ایران">هوش مصنوعی و بازار کار</button>
+            <button type="button" class="chip" data-topic="مزایا و معایب انرژی خورشیدی برای خانه‌های ایرانی">انرژی خورشیدی خانگی</button>
+            <button type="button" class="chip" data-topic="اثر کم‌خوابی بر یادگیری و حافظه‌ی دانشجویان">کم‌خوابی و یادگیری</button>
+            <button type="button" class="chip" data-topic="آینده‌ی خودروهای برقی در خاورمیانه">خودروهای برقی</button>
+          </div>
+
+          <button id="start-btn" class="btn primary" type="submit">شروع پژوهش</button>
+        </form>
+      </section>
+
+      <section id="progress-section" class="card" aria-labelledby="progress-title" hidden>
+        <div class="progress-head">
+          <h2 id="progress-title">پیشرفت پژوهش</h2>
+          <button id="stop-btn" class="btn danger small" type="button">توقف</button>
+        </div>
+        <div class="bar" role="progressbar" aria-label="پیشرفت پژوهش" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="bar-fill" class="bar-fill"></div>
+        </div>
+        <p id="progress-label" class="muted small">۰٪</p>
+
+        <ol id="stages" class="stages" aria-label="مراحل پژوهش">
+          <li data-stage="planning" data-state="pending"><span class="stage-dot" aria-hidden="true"></span><span class="stage-name">برنامه‌ریزی</span><span class="sr stage-state">در انتظار</span></li>
+          <li data-stage="gathering" data-state="pending"><span class="stage-dot" aria-hidden="true"></span><span class="stage-name">جمع‌آوری</span><span class="sr stage-state">در انتظار</span></li>
+          <li data-stage="verifying" data-state="pending"><span class="stage-dot" aria-hidden="true"></span><span class="stage-name">راستی‌آزمایی</span><span class="sr stage-state">در انتظار</span></li>
+          <li data-stage="writing" data-state="pending"><span class="stage-dot" aria-hidden="true"></span><span class="stage-name">نگارش</span><span class="sr stage-state">در انتظار</span></li>
+        </ol>
+
+        <div class="two-col">
+          <div>
+            <h3>فعالیت‌های زنده</h3>
+            <ul id="activity" class="activity" role="log" aria-live="polite"></ul>
+          </div>
+          <div>
+            <h3>یافته‌های کشف‌شده <span id="findings-count" class="muted small"></span></h3>
+            <div id="findings" class="findings"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="report-section" class="card report-card" aria-labelledby="report-title" hidden>
+        <div class="toolbar">
+          <h2 id="report-title">گزارش پژوهش</h2>
+          <div class="toolbar-actions">
+            <button id="copy-btn" class="btn ghost small" type="button">کپی گزارش</button>
+            <a id="download-btn" class="btn ghost small" href="#" download>دانلود Markdown</a>
+            <button id="print-btn" class="btn ghost small" type="button">چاپ</button>
+          </div>
+        </div>
+        <article id="report" class="report" lang="fa" dir="rtl"></article>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script src="/static/app.js"></script>
+</body>
+</html>
