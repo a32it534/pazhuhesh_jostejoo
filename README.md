@@ -412,4 +412,8 @@ https://github.com/a32it534/pazhuhesh_jostejoo
 
 **Pazhuhesh Jostejoo — Intelligent Persian Research Assistant**
 
+## 📄 License
+
+MIT License
+
 
