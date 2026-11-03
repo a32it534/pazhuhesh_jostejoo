@@ -306,7 +306,7 @@ SEARCH_FALLBACK_URL=YOUR_SEARXNG_URL
 
 **زبان اصلی:** فارسی
 
-**فناوری‌ها:** Python، FastAPI، SQLite، Ollama، Qwen3 4B، Gemma 3 12B، API سازگار با OpenAI
+**فناوری‌ها:** Python، FastAPI، SQLite، Ollama، API سازگار با OpenAI
 
 **مخزن پروژه:** https://github.com/a32it534/pazhuhesh_jostejoo
 
