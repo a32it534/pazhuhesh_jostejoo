@@ -304,8 +304,6 @@ SEARCH_FALLBACK_URL=YOUR_SEARXNG_URL
 
 **توسعه‌دهنده و طراح پروژه:** علیرضا فقیریان (Alireza Faghirian)
 
-**زبان اصلی:** فارسی
-
 **فناوری‌ها:** Python، FastAPI، SQLite، Ollama، API سازگار با OpenAI
 
 **مخزن پروژه:** https://github.com/a32it534/pazhuhesh_jostejoo
